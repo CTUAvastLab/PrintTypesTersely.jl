@@ -50,7 +50,7 @@ function base_show_full(io::IO, @nospecialize(x::Type))
                 return
             elseif StridedArray{T,N} <: x
                 print(io, "Union")
-                Base.show_delim_array(io, vcat(StridedArray{T,N}, Base.uniontypes(Core.Compiler.typesubtract(x, StridedArray{T2,N}))), '{', ',', '}', false)
+                Base.show_delim_array(io, vcat(StridedArray{T,N}, Base.uniontypes(Core.Compiler.typesubtract(x, StridedArray{T,N}))), '{', ',', '}', false)
                 return
             end
         end
