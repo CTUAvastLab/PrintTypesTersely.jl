@@ -59,8 +59,7 @@ function base_show_full(io::IO, @nospecialize(x::Type))
         return
     end
 
-    # this type assert is behaving obscurely. When in Mill, it does not assert that LazyNode{T<:Symbol,D} where D is UnionAll, but in debugging using Debugger, it does
-    # x::UnionAll
+    x::UnionAll
     if Base.print_without_params(x)
         return show(io, Base.unwrap_unionall(x).name)
     end
