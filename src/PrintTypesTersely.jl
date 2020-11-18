@@ -15,10 +15,8 @@ end
 function with_state(f::Function, a)
     orig_val = _terseprint[]
     _terseprint[] = a
-    println("before f: $(_terseprint[])")
     f()
     _terseprint[] = orig_val
-    println("after f: $(_terseprint[])")
 end
 
 function base_show_terse(io::IO, @nospecialize(x::Type))
