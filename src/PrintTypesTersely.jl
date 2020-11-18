@@ -20,10 +20,13 @@ function with_state(f::Function, a)
 end
 
 function base_show_terse(io::IO, @nospecialize(x::Type))
-    # maybe use Base.unwrap_unionall(x).name instead?
-    while hasproperty(x, :body) && !hasproperty(x, :name)
-        x = x.body
+    # print(io, typeof(x))
+    if x isa Union
+        print(io, "Union")
+        Base.show_delim_array(io, Base.uniontypes(x), '{', ',', '}', false)
+        return
     end
+    x = Base.unwrap_unionall(x)
     print(io, "$(x.name){…}")
     return
 end

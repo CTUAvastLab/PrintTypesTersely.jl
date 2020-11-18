@@ -31,6 +31,8 @@ const B{C} = B{C, D} where {D}
             @test repr(A{Union{Int, Missing}}) == "A{…}"
             @test repr(B{Int, Float32}) == "B{…}"
             @test repr(B{Int}) == "B{…}"
+            @test repr(DenseMatrix{Int}) == "DenseArray{…}"
+            @test repr(StridedVector{Int}) == "Union{DenseArray{…}, Base.ReinterpretArray{…}, Base.ReshapedArray{…}, SubArray{…}}"
         end
     end
 
@@ -40,6 +42,8 @@ const B{C} = B{C, D} where {D}
 			@test repr(A{Union{Int, Missing}}) == "A{Union{Missing, Int64}}"
 			@test repr(B{Int, Float32}) == "B{Int64,Float32}"
             @test repr(B{Int}) == "B{Int64,D} where D"
+            @test repr(DenseMatrix{Int}) == "DenseArray{Int64,2}"
+            @test repr(StridedVector{Int}) == "StridedArray{Int64, 1}"
         end
     end
 
