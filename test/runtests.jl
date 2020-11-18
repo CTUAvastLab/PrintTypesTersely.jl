@@ -12,9 +12,23 @@ const B{C} = B{C, D} where {D}
 
 @testset "PrintTypesTersely.jl" begin
 
+	@testset "testing modes" begin
+		PrintTypesTersely.on()
+		@test PrintTypesTersely._terseprint[] == true
+		PrintTypesTersely.off()
+		@test PrintTypesTersely._terseprint[] == false
+        PrintTypesTersely.with_state(true) do
+			@test PrintTypesTersely._terseprint[] == true
+        end
+		PrintTypesTersely.with_state(false) do
+			@test PrintTypesTersely._terseprint[] == false
+        end
+    end
+
     @testset "testing terseprint on" begin
         PrintTypesTersely.with_state(true) do
             @test repr(A{Vector{Int}}) == "A{…}"
+            @test repr(A{Union{Int, Missing}}) == "A{…}"
             @test repr(B{Int, Float32}) == "B{…}"
             @test repr(B{Int}) == "B{…}"
         end
@@ -23,6 +37,7 @@ const B{C} = B{C, D} where {D}
     @testset "testing terseprint off" begin
         PrintTypesTersely.with_state(false) do
             @test repr(A{Vector{Int}}) == "A{Array{Int64,1}}"
+			@test repr(A{Union{Int, Missing}}) == "A{Union{Int, Missing}}"
 			@test repr(B{Int, Float32}) == "B{Int64,Float32}"
             @test repr(B{Int}) == "B{Int64,D} where D"
         end
