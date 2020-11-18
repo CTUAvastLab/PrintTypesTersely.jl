@@ -37,7 +37,7 @@ const B{C} = B{C, D} where {D}
     @testset "testing terseprint off" begin
         PrintTypesTersely.with_state(false) do
             @test repr(A{Vector{Int}}) == "A{Array{Int64,1}}"
-			@test repr(A{Union{Int, Missing}}) == "A{Union{Int, Missing}}"
+			@test repr(A{Union{Int, Missing}}) == "A{Union{Missing, Int64}}"
 			@test repr(B{Int, Float32}) == "B{Int64,Float32}"
             @test repr(B{Int}) == "B{Int64,D} where D"
         end
