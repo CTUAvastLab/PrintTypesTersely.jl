@@ -1,6 +1,9 @@
 using PrintTypesTersely
 using Test, Mill, JsonGrinder
 
+struct A{T}
+end
+
 @testset "PrintTypesTersely.jl" begin
 
     metadata = fill("metadata", 4)
@@ -38,6 +41,18 @@ using Test, Mill, JsonGrinder
     ext2 = ExtractDict(Dict("a" => ExtractScalar(Float64,2,3)))
     # ext1 = ExtractDict(nothing, Dict("a" => ExtractScalar(Float64,2,3),"b" => ExtractScalar(Float64), "c" => ExtractArray(ExtractScalar(Float64,2,3))))
     # ext2 = ExtractDict(nothing, Dict("a" => ExtractScalar(Float64,2,3)))
+
+    @testset "testing terseprint on" begin
+        PrintTypesTersely.with_state(true) do
+            @test repr(A{Vector{Int}}) == "A{…}"
+        end
+    end
+
+    @testset "testing terseprint off" begin
+        PrintTypesTersely.with_state(false) do
+            @test repr(A{Vector{Int}}) == "A{Vector{Int}}"
+        end
+    end
 
     @testset "testing terseprint on - Mill" begin
         PrintTypesTersely.with_state(true) do

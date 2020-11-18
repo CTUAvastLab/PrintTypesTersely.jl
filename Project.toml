@@ -3,11 +3,6 @@ uuid = "41b232b1-0de0-4a65-aab4-126884588aaf"
 authors = ["Matěj Račinský <matej.racinsky@avast.com>"]
 version = "0.1.0"
 
-[deps]
-JsonGrinder = "d201646e-a9c0-11e8-1063-23b139159713"
-Mill = "1d0525e4-8992-11e8-313c-e310e1f6ddea"
-Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
-
 [compat]
 julia = "1"
 
