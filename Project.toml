@@ -6,14 +6,15 @@ version = "0.1.0"
 [deps]
 JsonGrinder = "d201646e-a9c0-11e8-1063-23b139159713"
 Mill = "1d0525e4-8992-11e8-313c-e310e1f6ddea"
+Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [compat]
-Mill = "~1.5"
-JsonGrinder = "~1.7"
 julia = "1"
 
 [extras]
+JsonGrinder = "d201646e-a9c0-11e8-1063-23b139159713"
+Mill = "1d0525e4-8992-11e8-313c-e310e1f6ddea"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["Test", "Mill", "JsonGrinder"]

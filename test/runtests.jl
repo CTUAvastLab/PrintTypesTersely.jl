@@ -34,33 +34,36 @@ using Test, Mill, JsonGrinder
     l = ProductNode((a = wc, b = c))
 
     # for JsonGrinder 2
-    # ext1 = ExtractDict(Dict("a" => ExtractScalar(Float64,2,3),"b" => ExtractScalar(Float64), "c" => ExtractArray(ExtractScalar(Float64,2,3))))
-    # ext2 = ExtractDict(Dict("a" => ExtractScalar(Float64,2,3)))
-    ext1 = ExtractDict(nothing, Dict("a" => ExtractScalar(Float64,2,3),"b" => ExtractScalar(Float64), "c" => ExtractArray(ExtractScalar(Float64,2,3))))
-    ext2 = ExtractDict(nothing, Dict("a" => ExtractScalar(Float64,2,3)))
+    ext1 = ExtractDict(Dict("a" => ExtractScalar(Float64,2,3),"b" => ExtractScalar(Float64), "c" => ExtractArray(ExtractScalar(Float64,2,3))))
+    ext2 = ExtractDict(Dict("a" => ExtractScalar(Float64,2,3)))
+    # ext1 = ExtractDict(nothing, Dict("a" => ExtractScalar(Float64,2,3),"b" => ExtractScalar(Float64), "c" => ExtractArray(ExtractScalar(Float64,2,3))))
+    # ext2 = ExtractDict(nothing, Dict("a" => ExtractScalar(Float64,2,3)))
 
     @testset "testing terseprint on - Mill" begin
-        PrintTypesTersely.with_terseprint(true) do
-            @test repr(typeof([h,i])) == "Array{ProductNode{…},1}"
+        PrintTypesTersely.with_state(true) do
+            @test repr(typeof([h,i])) == "Array{…}"
+            @test repr(typeof(h)) == "ProductNode{…}"
         end
     end
 
     @testset "testing terseprint off - Mill" begin
-        PrintTypesTersely.with_terseprint(false) do
+        PrintTypesTersely.with_state(false) do
             @test repr(typeof([h,i])) == "Array{ProductNode{T,Nothing} where T,1}"
+            @test repr(typeof(h)) == "ProductNode{Tuple{WeightedBagNode{ArrayNode{Array{Float64,2},Nothing},AlignedBags,Int64,Array{String,1}},BagNode{ArrayNode{Array{Float64,2},Nothing},AlignedBags,Array{String,1}}},Nothing}"
         end
     end
 
     @testset "testing terseprint on - JsonGrinder" begin
-        PrintTypesTersely.with_terseprint(true) do
-            @test repr(typeof([ext1, ext2])) == "Array{ExtractDict{…},1}"
+        PrintTypesTersely.with_state(true) do
+            @test repr(typeof([ext1, ext2])) == "Array{…}"
+            @test repr(typeof(ext1)) == "ExtractDict{…}"
         end
     end
 
     @testset "testing terseprint off - JsonGrinder" begin
-        PrintTypesTersely.terseprint(true)
-        PrintTypesTersely.with_terseprint(false) do
-            @test repr(typeof([ext1, ext2])) == "Array{ExtractDict{Nothing,V} where V,1}"
+        PrintTypesTersely.with_state(false) do
+            @test repr(typeof([ext1, ext2])) == "Array{ExtractDict,1}"
+            @test repr(typeof(ext1)) == "ExtractDict{Dict{String,JsonGrinder.AbstractExtractor}}"
         end
     end
 
@@ -79,31 +82,27 @@ using Test, Mill, JsonGrinder
         t = UnionAll(TypeVar(:t), LazyNode)
         u = typeof(LazyNode(:oh_hi, ["Mark"]))
 
-        orig_terse = Mill._terseprint[]
+        orig_terse = PrintTypesTersely._terseprint[]
 
         v = UnionAll(TypeVar(:T, AbstractMillModel), BagModel)
 
-        PrintTypesTersely.terseprint(true)
-        @test occursin("(ds::LazyNode{…}) where T<:Symbol", repr(methods(experiment)))
-        @test repr(t) == "LazyNode{…}"
-        @test repr(u) == "LazyNode{…}"
-        @test repr(d) == "LazyNode{…}"
-        @test repr(e) == "LazyNode{…}"
-        @test repr(v) == "BagModel{…}"
+        PrintTypesTersely.with_state(true) do
+            @test occursin("(ds::LazyNode{…}) where T<:Symbol", repr(methods(experiment)))
+            @test repr(t) == "LazyNode{…}"
+            @test repr(u) == "LazyNode{…}"
+            @test repr(d) == "LazyNode{…}"
+            @test repr(e) == "LazyNode{…}"
+            @test repr(v) == "BagModel{…}"
+        end
 
-        # extremely weird behavior, see https://github.com/pevnak/Mill.jl/issues/45
-    	PrintTypesTersely.terseprint(false)
-        @test_throws ErrorException startswith("(ds::LazyNode{T,D} where D) where T<:Symbol", repr(methods(experiment)))
-        @test_broken repr(methods(experiment))
-        @test repr(t) == "LazyNode"
-        @test repr(u) == "LazyNode{:oh_hi,Array{String,1}}"
-        @test_throws ErrorException repr(d)
-        @test_broken repr(d) == "LazyNode{T<:Symbol,D}"
-    	@test_throws ErrorException repr(e)
-        @test_broken repr(e) == "LazyNode{T<:Symbol,D}"
-        @test repr(v) == "BagModel"
-
-        PrintTypesTersely.terseprint(orig_terse)
+        PrintTypesTersely.with_state(false) do
+            @test occursin("(ds::LazyNode{T,D} where D) where T<:Symbol", repr(methods(experiment)))
+            @test repr(t) == "LazyNode"
+            @test repr(u) == "LazyNode{:oh_hi,Array{String,1}}"
+            @test repr(d) == "LazyNode{T<:Symbol,D} where D"
+            @test repr(e) == "LazyNode{T<:Symbol,D}"
+            @test repr(v) == "BagModel"
+        end
     end
 
 end
