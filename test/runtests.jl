@@ -39,6 +39,8 @@ const B{C} = B{C, D} where {D}
             @test repr(Union{StridedMatrix{Int}, StridedArray{Int,3}}) == "Union{DenseArray{…}, DenseArray{…}, Base.ReinterpretArray{…}, Base.ReinterpretArray{…}, Base.ReshapedArray{…}, Base.ReshapedArray{…}, SubArray{…}, SubArray{…}}"
 			t_ = TypeVar(:_,Integer)
 			@test repr(UnionAll(t_, Array{t_})) == "Array{…}"
+		    u_ = TypeVar(:_,Complex)
+			@test repr(UnionAll(u_, Array{UnionAll(t_, Array{t_, u_})})) == "Array{…}"
         end
     end
 
@@ -62,6 +64,8 @@ const B{C} = B{C, D} where {D}
 			@test repr(Union{StridedMatrix{Int}, StridedArray{Int,3}}) == expected
 			t_ = TypeVar(:_,Integer)
 			@test repr(UnionAll(t_, Array{t_})) == "Array{_1,N} where N where _1<:Integer"
+			u_ = TypeVar(:_,Complex)
+			@test repr(UnionAll(u_, Array{UnionAll(t_, Array{t_, u_})})) == "Array{Array{_2,_1} where _2<:Integer,N} where N where _1<:Complex"
         end
     end
 
