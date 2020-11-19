@@ -1,6 +1,5 @@
 # PrintTypesTersely
 
-[![Build Status](https://travis-ci.com/racinmat/PrintTypesTersely.jl.svg?branch=master)](https://travis-ci.com/racinmat/PrintTypesTersely.jl)
 [![Build Status](https://github.com/racinmat/PrintTypesTersely.jl/workflows/CI/badge.svg)](https://github.com/racinmat/PrintTypesTersely.jl/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/racinmat/PrintTypesTersely.jl/badge.svg?branch=master)](https://coveralls.io/github/racinmat/PrintTypesTersely.jl?branch=master)
 [![codecov.io](http://codecov.io/github/racinmat/PrintTypesTersely.jl/coverage.svg?branch=master)](http://codecov.io/github/racinmat/PrintTypesTersely.jl?branch=master)
