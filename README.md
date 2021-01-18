@@ -4,7 +4,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/racinmat/PrintTypesTersely.jl/badge.svg?branch=master)](https://coveralls.io/github/racinmat/PrintTypesTersely.jl?branch=master)
 [![codecov.io](http://codecov.io/github/racinmat/PrintTypesTersely.jl/coverage.svg?branch=master)](http://codecov.io/github/racinmat/PrintTypesTersely.jl?branch=master)
 
-When working with recursive structures containing parametric types, printing types (e.g. in error) gets very verbose. 
+When working with recursive structures containing parametric types, printing types (e.g. in error) gets very verbose.
+
 **PrintTypesTersely** modifies printing types so only the first type is printed.
 
 By default the functionality is turned off, but you can turn it on by:
@@ -14,7 +15,7 @@ PrintTypesTersely.on()
 ```
 
 now it starts to shorten types print.
-So instead of e.g. `A{Union{Int, Missing}}`, you'll see only `A{…}`. 
+So instead of e.g. `A{Union{Int, Missing}}`, you'll see only `A{…}`.
 You can disable this behavior by
 ```julia
 PrintTypesTersely.on()
