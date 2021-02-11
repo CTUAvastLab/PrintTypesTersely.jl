@@ -1,8 +1,8 @@
 # PrintTypesTersely
 
-[![Build Status](https://github.com/racinmat/PrintTypesTersely.jl/workflows/CI/badge.svg)](https://github.com/racinmat/PrintTypesTersely.jl/actions?query=workflow%3ACI)
-[![Coverage Status](https://coveralls.io/repos/github/racinmat/PrintTypesTersely.jl/badge.svg?branch=master)](https://coveralls.io/github/racinmat/PrintTypesTersely.jl?branch=master)
-[![codecov.io](http://codecov.io/github/racinmat/PrintTypesTersely.jl/coverage.svg?branch=master)](http://codecov.io/github/racinmat/PrintTypesTersely.jl?branch=master)
+[![Build Status](https://github.com/CTUAvastLab/PrintTypesTersely.jl/workflows/CI/badge.svg)](https://github.com/CTUAvastLab/PrintTypesTersely.jl/actions?query=workflow%3ACI)
+[![Coverage Status](https://coveralls.io/repos/github/CTUAvastLab/PrintTypesTersely.jl/badge.svg?branch=master)](https://coveralls.io/github/CTUAvastLab/PrintTypesTersely.jl?branch=master)
+[![codecov.io](http://codecov.io/github/CTUAvastLab/PrintTypesTersely.jl/coverage.svg?branch=master)](http://codecov.io/github/CTUAvastLab/PrintTypesTersely.jl?branch=master)
 
 When working with recursive structures containing parametric types, printing types (e.g. in error) gets very verbose.
 
