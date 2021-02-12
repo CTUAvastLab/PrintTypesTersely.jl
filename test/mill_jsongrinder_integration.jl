@@ -43,9 +43,16 @@ end
 @testset "testing terseprint off - Mill" begin
     PrintTypesTersely.with_state(false) do
         @test repr(typeof([h,i])) == (VERSION < v"1.6.0-" ? "Array{ProductNode{T,Nothing} where T,1}" : "Vector{ProductNode{T, Nothing} where T}")
-        @test repr(typeof(h)) ==  (VERSION < v"1.6.0-" ?
-            "ProductNode{Tuple{WeightedBagNode{ArrayNode{Array{Float64,2},Nothing},AlignedBags,Int64,Array{String,1}},BagNode{ArrayNode{Array{Float64,2},Nothing},AlignedBags,Array{String,1}}},Nothing}" :
-            "ProductNode{Tuple{WeightedBagNode{ArrayNode{Matrix{Float64}, Nothing}, AlignedBags{Int64}, Int64, Vector{String}}, BagNode{ArrayNode{Matrix{Float64}, Nothing}, AlignedBags{Int64}, Vector{String}}}, Nothing}")
+        # because there are metadata in Mill 2.4 but not in 2.3
+        if :metadata ∈ fieldnames(LazyNode)
+            @test repr(typeof(h)) ==  (VERSION < v"1.6.0-" ?
+                "ProductNode{Tuple{WeightedBagNode{ArrayNode{Array{Float64,2},Nothing},AlignedBags{Int64},Int64,Array{String,1}},BagNode{ArrayNode{Array{Float64,2},Nothing},AlignedBags{Int64},Array{String,1}}},Nothing}" :
+                "ProductNode{Tuple{WeightedBagNode{ArrayNode{Matrix{Float64}, Nothing}, AlignedBags{Int64}, Int64, Vector{String}}, BagNode{ArrayNode{Matrix{Float64}, Nothing}, AlignedBags{Int64}, Vector{String}}}, Nothing}")
+        else
+            @test repr(typeof(h)) ==  (VERSION < v"1.6.0-" ?
+                "ProductNode{Tuple{WeightedBagNode{ArrayNode{Array{Float64,2},Nothing},AlignedBags,Int64,Array{String,1}},BagNode{ArrayNode{Array{Float64,2},Nothing},AlignedBags,Array{String,1}}},Nothing}" :
+                "ProductNode{Tuple{WeightedBagNode{ArrayNode{Matrix{Float64}, Nothing}, AlignedBags{Int64}, Int64, Vector{String}}, BagNode{ArrayNode{Matrix{Float64}, Nothing}, AlignedBags{Int64}, Vector{String}}}, Nothing}")
+        end
     end
 end
 
@@ -96,11 +103,11 @@ end
     PrintTypesTersely.with_state(false) do
         # because there are metadata in Mill 2.4 but not in 2.3
         if :metadata ∈ fieldnames(LazyNode)
-            expected = (VERSION < v"1.6.0-" ? "(ds::LazyNode{T,D,C} where {D,C}) where T<:Symbol" :
+            expected = (VERSION < v"1.6.0-" ? "(ds::LazyNode{T,D,C} where C where D) where T<:Symbol" :
             "(ds::LazyNode{T, D, C} where {D, C}) where T<:Symbol")
             @test occursin(expected, repr(methods(experiment)))
             @test repr(u) == (VERSION < v"1.6.0-" ? "LazyNode{:oh_hi,Array{String,1},Nothing}" : "LazyNode{:oh_hi, Vector{String}, Nothing}")
-            @test repr(d) == (VERSION < v"1.6.0-" ? "LazyNode{T<:Symbol,D,C} where {D,C}" : "LazyNode{T<:Symbol, D, C} where {D, C}")
+            @test repr(d) == (VERSION < v"1.6.0-" ? "LazyNode{T<:Symbol,D,C} where C where D" : "LazyNode{T<:Symbol, D, C} where {D, C}")
             @test repr(e) == (VERSION < v"1.6.0-" ? "LazyNode{T<:Symbol,D,C} where C" : "LazyNode{T<:Symbol, D, C} where C")
         else
             expected = (VERSION < v"1.6.0-" ? "(ds::LazyNode{T,D} where D) where T<:Symbol" :
