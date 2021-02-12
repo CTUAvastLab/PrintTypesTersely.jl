@@ -27,11 +27,11 @@ function base_show_terse(io::IO, @nospecialize(x::Type))
         return
     end
     x = Base.unwrap_unionall(x)
-    print(io, "$(x.name){…}")
+    print(io, "$(x.name.name){…}")
     return
 end
 
-@static if VERSION < "1.6.0-"
+@static if VERSION < v"1.6.0-"
 function base_show_full_1_5(io::IO, @nospecialize(x::Type))
     # basically copied from the Julia sourcecode, seems it's one of most robust fixes to Pevňákoviny
     # specifically function show(io::IO, @nospecialize(x::Type))
@@ -84,7 +84,7 @@ function base_show_full_1_5(io::IO, @nospecialize(x::Type))
 end
 end
 
-@static if VERSION >= "1.6.0-"
+@static if VERSION >= v"1.6.0-"
 function base_show_full_1_6(io::IO, @nospecialize(x::Type))
     # basically copied from the Julia sourcecode, seems it's one of most robust fixes to Pevňákoviny
     # specifically function show(io::IO, @nospecialize(x::Type))
