@@ -32,19 +32,11 @@ const B{C} = B{C, D} where {D}
             @test repr(B{Int, Float32}) == "B{…}"
             @test repr(B{Int}) == "B{…}"
             @test repr(DenseMatrix{Int}) == "DenseArray{…}"
-            @test repr(StridedVector{Int}) == (VERSION < v"1.6.0-" ?
-				"Union{DenseArray{…}, Base.ReinterpretArray{…}, Base.ReshapedArray{…}, SubArray{…}}" :
-				"Union{DenseArray{…}, ReinterpretArray{…}, ReshapedArray{…}, SubArray{…}}")
-            @test repr(StridedVecOrMat{Int}) == (VERSION < v"1.6.0-" ?
-				"Union{DenseArray{…}, DenseArray{…}, Base.ReinterpretArray{…}, Base.ReinterpretArray{…}, Base.ReshapedArray{…}, Base.ReshapedArray{…}, SubArray{…}, SubArray{…}}" :
-				"Union{DenseArray{…}, DenseArray{…}, ReinterpretArray{…}, ReinterpretArray{…}, ReshapedArray{…}, ReshapedArray{…}, SubArray{…}, SubArray{…}}")
-            @test repr(Union{StridedVector{Int}, Int}) == (VERSION < v"1.6.0-" ?
-				"Union{Int64{…}, DenseArray{…}, Base.ReinterpretArray{…}, Base.ReshapedArray{…}, SubArray{…}}" :
-				"Union{Int64{…}, DenseArray{…}, ReinterpretArray{…}, ReshapedArray{…}, SubArray{…}}")
+            @test repr(StridedVector{Int}) == "Union{DenseArray{…}, ReinterpretArray{…}, ReshapedArray{…}, SubArray{…}}"
+            @test repr(StridedVecOrMat{Int}) == "Union{DenseArray{…}, DenseArray{…}, ReinterpretArray{…}, ReinterpretArray{…}, ReshapedArray{…}, ReshapedArray{…}, SubArray{…}, SubArray{…}}"
+            @test repr(Union{StridedVector{Int}, Int}) == "Union{Int64{…}, DenseArray{…}, ReinterpretArray{…}, ReshapedArray{…}, SubArray{…}}"
             @test repr(UnionAll(TypeVar(:T,Integer), Array)) == "Array{…}"
-            @test repr(Union{StridedMatrix{Int}, StridedArray{Int,3}}) == (VERSION < v"1.6.0-" ?
-				"Union{DenseArray{…}, DenseArray{…}, Base.ReinterpretArray{…}, Base.ReinterpretArray{…}, Base.ReshapedArray{…}, Base.ReshapedArray{…}, SubArray{…}, SubArray{…}}" :
-				"Union{DenseArray{…}, DenseArray{…}, ReinterpretArray{…}, ReinterpretArray{…}, ReshapedArray{…}, ReshapedArray{…}, SubArray{…}, SubArray{…}}")
+            @test repr(Union{StridedMatrix{Int}, StridedArray{Int,3}}) == "Union{DenseArray{…}, DenseArray{…}, ReinterpretArray{…}, ReinterpretArray{…}, ReshapedArray{…}, ReshapedArray{…}, SubArray{…}, SubArray{…}}")
 			t_ = TypeVar(:_,Integer)
 			@test repr(UnionAll(t_, Array{t_})) == "Array{…}"
 		    u_ = TypeVar(:_,Complex)
