@@ -86,7 +86,7 @@ const B{C} = B{C, D} where {D}
     end
 
 	# make it run Mill tests only for Julia 1.5 and higher because that's where Mil 2 works
-	@static if VERSION >= "1.5.0"
+	@static if VERSION >= v"1.5.0"
 		include("mill_jsongrinder_integration.jl")
 	end
 end
