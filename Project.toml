@@ -9,6 +9,7 @@ Mill = "1d0525e4-8992-11e8-313c-e310e1f6ddea"
 Zlib_jll = "83775a58-1f1d-513f-b197-d71354ab007a"
 
 [compat]
+JsonGrinder = "2.1"
 Mill = "2.4"
 julia = "^1.3"
 
